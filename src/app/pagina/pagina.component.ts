@@ -1,6 +1,7 @@
 import { Component, OnInit, ElementRef, AfterViewInit } from '@angular/core';
 import cheerio, { CheerioAPI } from 'cheerio';
 import { Pagina } from '../model/Pagina';
+import { Resultado } from '../model/Resultado';
 import { PaginaService } from '../services/pagina.service';
 
 @Component({
@@ -11,14 +12,16 @@ import { PaginaService } from '../services/pagina.service';
 export class PaginaComponent implements OnInit, AfterViewInit {
 
   pagina!: Pagina;
+  resultado!: Resultado;
 
   constructor(private paginaService: PaginaService,
     private elementRef: ElementRef) {
     this.pagina = new Pagina();
+    this.resultado = new Resultado();
   }
 
   ngOnInit(): void {
-    this.buscarconteudoOriginal()
+    // this.buscarconteudoOriginal()
   }
 
   ngAfterViewInit(): void { }
@@ -30,12 +33,20 @@ export class PaginaComponent implements OnInit, AfterViewInit {
       })
   }
 
+  realizarProcessoETL(){
+    this.paginaService.realizarProcessoETL()
+    .subscribe( response=>{
+         this.resultado= response;
+    })
+  }
+
   identificarTagsComLinks() {
 
     let e = this.elementRef.nativeElement.querySelectorAll('a[href^="https://jirac"]') as NodeListOf<HTMLAnchorElement>;
+   
     e.forEach((element) => {
       let titulo = element.text
-      console.log(titulo)
+    
       let href = element.href
       let id = this.extrairId(href)
       

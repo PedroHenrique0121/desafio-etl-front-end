@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Pagina } from '../model/Pagina';
 import { Observable } from "rxjs"
 import { environment } from 'src/environments/environment';
+import { Resultado } from '../model/Resultado';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class PaginaService {
 
   salvarConteudoModificado(pagina: Pagina): Observable<Pagina> {
     return this.http.post<Pagina>(`${environment.apiUrl}/conteudo-modificado/${pagina.id}`, pagina);
+  }
+
+  realizarProcessoETL(): Observable<Resultado>{
+    return this.http.get<Resultado>(`${environment.apiUrl}/start`);
   }
 }

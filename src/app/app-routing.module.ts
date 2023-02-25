@@ -5,9 +5,11 @@ import { LayouteComponent } from './layoute/layoute.component';
 import { PaginaComponent } from './pagina/pagina.component';
 
 const routes: Routes = [
-  {path: "", component: LayouteComponent, children:[
-    {path:'', component: PaginaComponent}
+  {path: "pagina", component: LayouteComponent, children:[
+    {path:'conteudo-original', component: PaginaComponent}
   ]}
+  , 
+  {path: "", redirectTo:"pagina/conteudo-original", pathMatch:"full"}
 ];
 
 @NgModule({
